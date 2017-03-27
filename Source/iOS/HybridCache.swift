@@ -51,36 +51,4 @@ public class HybridCache: BasicHybridCache {
     backStorage.clearExpired(nil)
   }
 
-  /**
-   Clears expired cache items when the app enters background.
-   */
-  func applicationDidEnterBackground() {
-    let application = UIApplication.shared
-    var backgroundTask: UIBackgroundTaskIdentifier?
-
-    backgroundTask = application.beginBackgroundTask (expirationHandler: { [weak self] in
-      guard let weakSelf = self, let backgroundTask = backgroundTask else { return }
-      var mutableBackgroundTask = backgroundTask
-
-      weakSelf.endBackgroundTask(&mutableBackgroundTask)
-    })
-
-    backStorage.clearExpired { [weak self] in
-      guard let weakSelf = self, let backgroundTask = backgroundTask else { return }
-      var mutableBackgroundTask = backgroundTask
-
-      DispatchQueue.main.async {
-        weakSelf.endBackgroundTask(&mutableBackgroundTask)
-      }
-    }
-  }
-
-  /**
-   Ends given background task.
-   - Parameter task: A UIBackgroundTaskIdentifier
-   */
-  func endBackgroundTask(_ task: inout UIBackgroundTaskIdentifier) {
-    UIApplication.shared.endBackgroundTask(task)
-    task = UIBackgroundTaskInvalid
-  }
 }
