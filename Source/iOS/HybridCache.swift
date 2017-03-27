@@ -24,8 +24,6 @@ public class HybridCache: BasicHybridCache {
       name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
     notificationCenter.addObserver(self, selector: #selector(HybridCache.applicationWillTerminate),
       name: NSNotification.Name.UIApplicationWillTerminate, object: nil)
-    notificationCenter.addObserver(self, selector: #selector(HybridCache.applicationDidEnterBackground),
-      name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
   }
 
   /**
